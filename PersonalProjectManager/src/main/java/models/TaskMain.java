@@ -32,4 +32,15 @@ public abstract class TaskMain {
     public String getTitle() {
         return title;
     }
+
+    public String details() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("\n==============================\n")
+                .append(" Task Title    : ").append(title).append("\n")
+                .append(" Priority      : ").append(priority == 1 ? "High" : (priority == 2 ? "Medium" : "Low")).append("\n")
+                .append(" Deadline      : ").append(deadline).append("\n")
+                .append(" Status        : ").append(isCompleted ? "Completed" : "Not completed").append("\n")
+                .append("==============================");
+        return sb.toString();
+    }
 }

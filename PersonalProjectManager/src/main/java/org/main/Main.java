@@ -1,7 +1,10 @@
 package org.main;
 
+import Services.TaskManager;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello, World!");
+        TaskManager manager = new TaskManager();
+        manager.start();
     }
 }
