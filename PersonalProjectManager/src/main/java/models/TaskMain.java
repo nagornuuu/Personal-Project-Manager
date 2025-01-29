@@ -7,11 +7,11 @@ public abstract class TaskMain {
     protected boolean isCompleted;
     protected int priority;
 
-    public TaskMain(String title, String description, String deadline, boolean isCompleted, int priority) {
+    public TaskMain(String title, String description, int priority, String deadline) {
         this.title = title;
         this.description = description;
-        this.deadline = deadline;
         this.priority = priority;
+        this.deadline = deadline;
         this.isCompleted = false;
     }
 
@@ -32,8 +32,4 @@ public abstract class TaskMain {
     public String getTitle() {
         return title;
     }
-
-
-
-
 }
