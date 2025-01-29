@@ -2,7 +2,7 @@ package models;
 
 /**
  * Class Task represents and individual task in the project
- * It extands TaskMain and provides an implementation for displaying task details
+ * It extends TaskMain and provides an implementation for displaying task details
  */
 public class Task extends TaskMain {
     /**

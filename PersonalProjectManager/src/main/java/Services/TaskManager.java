@@ -1,7 +1,6 @@
 package Services;
 
 import models.Project;
-
 import java.util.Scanner;
 
 /**
@@ -26,16 +25,6 @@ public class TaskManager {
      * Users can add tasks, complete tasks, view tasks, or exit the application
      */
     public void start() {
-        try {
-            // Prompt user for project name
-            System.out.println("Enter project name: ");
-            String projectName = scanner.nextLine();
-            project.setProjectName(projectName);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return; // Exit if project name is invalid
-        }
-
         // Main menu loop
         while (true) {
             System.out.println("\n1. Add Task" +

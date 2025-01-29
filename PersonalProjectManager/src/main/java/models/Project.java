@@ -11,7 +11,7 @@ import java.util.Scanner;
 public class Project {
     private String name;        // Project name
     private List<Task> tasks;   // List of all tasks in the project
-    private Scanner scanner;    // Scanner object for user iteraction
+    private Scanner scanner;    // Scanner object for user interaction
 
     /**
      * Constructs a new Project with the specified name
@@ -25,42 +25,40 @@ public class Project {
     }
 
     /**
-     * Sets the project name with validation
-     * @param name The name of the project
-     * @throws Exception if the project name is empty or null
-     */
-    public void setProjectName(String name) throws Exception {
-        if (name == null || name.trim().isEmpty()) {
-            throw new Exception("Project name cannot be empty");
-        }
-        this.name = name.trim();
-    }
-
-    /**
      * Adds a new task to the project after validating user input
      */
     public void addTask() {
-        String title = getValidTitle();
-        String description = getValidDescription();
-        int priority = getValidPriority();
-        String deadline = getValidDeadline();
+        String title;
 
-        try {
-            // Ensure task does not already exist
-            for (Task task : tasks) {
-                if (task.getTitle().equalsIgnoreCase(title)) {
-                    throw new Exception("Task with the same title already exists");
-                }
+        // Keep asking for a valid title until a unique one is provided
+        while (true) {
+            title = getValidTitle();
+            if (!isTaskTitleDuplicate(title)) {
+                break; // Exit loop if the title is unique
             }
+            System.out.println("Task with the same title already exists. Please enter a different title");
+        }
+
+            String description = getValidDescription();
+            int priority = getValidPriority();
+            String deadline = getValidDeadline();
 
             // Create and add task
             Task task = new Task(title, description, priority, deadline);
             tasks.add(task);
             System.out.println("\nTask '" + title + "' successfully added");
 
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
         }
+
+    /**
+     * Checks if a task title already exists in the task list
+     * @param title The title to check
+     * @return True if the title exists, false otherwise
+     */
+    private boolean isTaskTitleDuplicate(String title) {
+        return tasks.stream()
+                .anyMatch(task -> task.getTitle().equalsIgnoreCase(title));
+        // equalsIgnoreCase - means like that hello = HeLLo because case are ignored
     }
 
     /**
@@ -71,6 +69,7 @@ public class Project {
         while (true) {
             System.out.print("\nEnter Task Title: ");
             String title = scanner.nextLine().trim();
+            // trim() - Removes all leading and trailing whitespace from the input
             if (!title.isEmpty()) {
                 return title;
             }
@@ -86,6 +85,7 @@ public class Project {
         while (true) {
             System.out.print("Enter Task Description: ");
             String description = scanner.nextLine().trim();
+            // trim() - Removes all leading and trailing whitespace from the input
             if (!description.isEmpty()) {
                 return description;
             }
@@ -102,6 +102,7 @@ public class Project {
             try {
                 System.out.print("Enter Task Priority (1 - High, 2 - Medium, 3 - Low): ");
                 int priority = Integer.parseInt(scanner.nextLine().trim());
+                // trim() - Removes all leading and trailing whitespace from the input
                 if (priority >= 1 && priority <= 3) {
                     return priority;
                 }
@@ -120,6 +121,11 @@ public class Project {
         while (true) {
             System.out.print("Enter Task Deadline (Format: DD/MM/YYYY): ");
             String deadline = scanner.nextLine().trim();
+            // trim() - Removes all leading and trailing whitespace from the input
+            // \\d{2}/\\d{2}/\\d{4} → Regular Expression
+            // \\d{2} - Represents DD (Day) - 2 digits
+            // \\d{2} - Represents MM (Month) - 2 digits
+            // \\d{4} - Represents YYYY (Years) - 4 digits  
             if (deadline.matches("\\d{2}/\\d{2}/\\d{4}")) {
                 return deadline;
             }
@@ -137,6 +143,7 @@ public class Project {
 
         for (Task task : tasks) {
             if (task.getTitle().equalsIgnoreCase(title)) {
+                // equalsIgnoreCase - means like that hello = HeLLo because case are ignored
                 if (task.isCompleted()) {
                     throw new Exception("Task '" + title + "' is already marked as completed");
                 }
@@ -158,15 +165,9 @@ public class Project {
      * @return The progress percentage (0-100)
      */
     public double getProgress() {
-        if (tasks.isEmpty()) {
-            return 0;
-        }
-        double completed = 0;
-        for (Task task : tasks) {
-            if (task.isCompleted()) {
-                completed++;
-            }
-        }
+        if (tasks.isEmpty()) return 0;
+        // Task::isCompleted = task -> task.isCompleted()
+        double completed = tasks.stream().filter(TaskMain::isCompleted).count();
         return Math.round((completed * 100) / tasks.size());
     }
 
