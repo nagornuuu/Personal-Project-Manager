@@ -4,17 +4,31 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * The Project class manages a collection of tasks, allowing users to add tasks,
+ * mark tasks as completed, and track project progress
+ */
 public class Project {
-    private String name;
-    private List<Task> tasks;
-    private Scanner scanner;
+    private String name;        // Project name
+    private List<Task> tasks;   // List of all tasks in the project
+    private Scanner scanner;    // Scanner object for user iteraction
 
+    /**
+     * Constructs a new Project with the specified name
+     * Initializes an empty task list and a scanner for input
+     * @param name The name of the project
+     */
     public Project(String name) {
         this.name = name;
         this.tasks = new ArrayList<>();
         this.scanner = new Scanner(System.in);
     }
 
+    /**
+     * Sets the project name with validation
+     * @param name The name of the project
+     * @throws Exception if the project name is empty or null
+     */
     public void setProjectName(String name) throws Exception {
         if (name == null || name.trim().isEmpty()) {
             throw new Exception("Project name cannot be empty");
@@ -22,6 +36,9 @@ public class Project {
         this.name = name.trim();
     }
 
+    /**
+     * Adds a new task to the project after validating user input
+     */
     public void addTask() {
         String title = getValidTitle();
         String description = getValidDescription();
@@ -46,6 +63,10 @@ public class Project {
         }
     }
 
+    /**
+     * Gets a valid task title from user input
+     * @return A non-empty task title
+     */
     private String getValidTitle() {
         while (true) {
             System.out.print("\nEnter Task Title: ");
@@ -57,6 +78,10 @@ public class Project {
         }
     }
 
+    /**
+     * Gets a valid task description from user input
+     * @return A non-empty task description
+     */
     private String getValidDescription() {
         while (true) {
             System.out.print("Enter Task Description: ");
@@ -68,6 +93,10 @@ public class Project {
         }
     }
 
+    /**
+     * Gets a valid priority level from user input
+     * @return A priority level (1-High, 2-Medium, 3-Low)
+     */
     private int getValidPriority() {
         while (true) {
             try {
@@ -83,6 +112,10 @@ public class Project {
         }
     }
 
+    /**
+     * Gets a valid task deadline from user input
+     * @return A valid deadline in DD/MM/YYYY format
+     */
     private String getValidDeadline() {
         while (true) {
             System.out.print("Enter Task Deadline (Format: DD/MM/YYYY): ");
@@ -94,6 +127,11 @@ public class Project {
         }
     }
 
+    /**
+     * Marks a task as completed based on its title
+     * @param title The title of the task to complete
+     * @throws Exception if the task is not found or is already completed
+     */
     public void completeTask(String title) throws Exception {
         boolean found = false;
 
@@ -115,6 +153,10 @@ public class Project {
         }
     }
 
+    /**
+     * Calculates the percentage of completed tasks in the project
+     * @return The progress percentage (0-100)
+     */
     public double getProgress() {
         if (tasks.isEmpty()) {
             return 0;
@@ -128,6 +170,10 @@ public class Project {
         return Math.round((completed * 100) / tasks.size());
     }
 
+    /**
+     * Displays all tasks in the project, sorted by priority
+     * Also shows the overall project progress
+     */
     public void displayTasks() {
         if (tasks.isEmpty()) {
             System.out.println("No tasks found");
